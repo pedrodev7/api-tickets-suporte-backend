@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Local } from "./Local";
 
 @Entity('empresas')
 export class Empresa{
@@ -15,4 +16,6 @@ export class Empresa{
     @Column({type: 'text'})
     descricao: string
 
+    @OneToMany(() => Local, local => local.empresa)
+    local: Local[]
 }

@@ -8,7 +8,7 @@ export class EmpresaController {
      * Metodo de criar uma Empresa e cadastrar no banco de dados
      */
     async create(req: Request, res: Response) {
-        const { nome, cnpj, descricao } = req.body;
+        const { nome, cnpj, descricao} = req.body;
 
         if (!nome || !cnpj || !descricao) {
             return res.status(400).json({ message: "Um ou mais campos Vazio" })
@@ -28,7 +28,7 @@ export class EmpresaController {
      * Metodo de alterar uma empresa no Banco de Dados
      */
     async update(req: Request, res: Response) {
-        const { nome, cnpj, descricao } = req.body;
+        const { nome, cnpj, descricao, local } = req.body;
         const { idEmpresa } = req.params;
 
         if (!idEmpresa) {
