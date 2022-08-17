@@ -55,8 +55,6 @@ export class EmpresaController {
      * Metodo de retornar todas as empresas
      */
     async read(req: Request, res: Response) {
-
-
         try {
             const empresa = await empresaRepository.find();
             return res.status(200).json(empresa);
