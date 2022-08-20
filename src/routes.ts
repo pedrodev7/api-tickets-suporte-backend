@@ -1,8 +1,10 @@
 import { Router } from 'express'
+import { ClienteController } from './controllers/ClienteController';
 import { EmpresaController } from './controllers/EmpresaController';
 import { LocalController } from './controllers/LocalController';
 import { LoginController } from './controllers/LoginController';
 import { ResponsavelController } from './controllers/ResponsavelController';
+import { TickerController } from './controllers/TicketController';
 import { Auth } from './middlewares/auth';
 
 const routes = Router();
@@ -21,6 +23,12 @@ routes.get('/local', new LocalController().list);
 // Endpoints da Entidade RESPONSAVEL
 routes.post('/responsavel', new ResponsavelController().create);
 routes.post('/login', new LoginController().signIn);
+
+// Endpoints da Entidade Cliente
+routes.post('/cliente', new ClienteController().create);
+
+// Endpoints da Entidade TICKET
+routes.post('/ticket/:idCliente/novo', new TickerController().create)
 
 // Endpoints protegidos
 routes.use(new Auth().authMiddleware)
