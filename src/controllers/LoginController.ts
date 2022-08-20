@@ -1,42 +1,36 @@
 import { NextFunction, Request, Response } from "express";
-import { responsavelRepository } from "../repositories/responsavelRepository";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-
-type JwtPayload = {
-	id: number
-}
+import { userRepository } from "../repositories/UserRepository";
 
 export class LoginController {
 
     async signIn(req: Request, res: Response){
         const {email, senha} = req.body;
 
-        const responsavel = await responsavelRepository.findOneBy({email});
+        const user = await userRepository.findOneBy({email});
 
-        if(!responsavel){
+        if(!user){
             return res.status(400).json({message: 'E-mail ou senha inválidos'})
         }
 
-        const verificarSenha = await bcrypt.compare(senha, responsavel.senha);
+        const verificarSenha = await bcrypt.compare(senha, user.senha);
 
         if(!verificarSenha){
-            throw res.status(400).json({message: 'E-mail ou senha inválidos'})
+            return res.status(400).json({message: 'E-mail ou senha inválidos'})
         }
 
-        const token = jwt.sign({id: responsavel.id}, process.env.JWT_PASS ?? '', {
+        const token = jwt.sign({id: user.id}, process.env.JWT_PASS ?? '', {
             expiresIn: '1h'
         });
 
         const {
-            senha: _senha,
-            telefone: _telefone,
-            endereco: _endereco, 
-            ...loginResponsavel
-        } = responsavel
+            senha: _senha, 
+            ...loginUser
+        } = user
 
         return res.json({
-            responsavel: loginResponsavel,
+            responsavel: loginUser,
             token: token
         })
     }

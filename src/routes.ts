@@ -5,6 +5,7 @@ import { LocalController } from './controllers/LocalController';
 import { LoginController } from './controllers/LoginController';
 import { ResponsavelController } from './controllers/ResponsavelController';
 import { TickerController } from './controllers/TicketController';
+import { UserController } from './controllers/UserController';
 import { Auth } from './middlewares/auth';
 
 const routes = Router();
@@ -22,6 +23,9 @@ routes.get('/local', new LocalController().list);
 
 // Endpoints da Entidade RESPONSAVEL
 routes.post('/responsavel', new ResponsavelController().create);
+
+// >>>>>>> Endpoint da Entidade USER
+routes.post('/user', new UserController().create);
 routes.post('/login', new LoginController().signIn);
 
 // Endpoints da Entidade Cliente

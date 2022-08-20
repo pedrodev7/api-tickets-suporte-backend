@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { responsavelRepository } from "../repositories/responsavelRepository";
 import jwt from 'jsonwebtoken';
+import { userRepository } from "../repositories/UserRepository";
 
 type JwtPayload = {
 	id: number
@@ -18,20 +18,18 @@ export class Auth {
         const token = authorization.split(' ')[1];
 
         const { id } = jwt.verify(token, process.env.JWT_PASS ?? '') as JwtPayload
-        const responsavel = await responsavelRepository.findOneBy({id})
+        const user = await userRepository.findOneBy({id})
 
-        if(!responsavel){
+        if(!user){
             throw new Error('Não Autorizado')
         }
         
         const {
             senha: _senha, 
-            telefone: _telefone,
-            endereco: _endereco, 
-            ...responsavelLogado
-        } = responsavel
+            ...userLogado
+        } = user
 
-        req.user = responsavelLogado;
+        req.user = userLogado;
 
         next();
     }
