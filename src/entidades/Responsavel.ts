@@ -6,12 +6,6 @@ export class Responsavel {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({type: 'text', unique: true})
-    email: string
-
-    @Column({type: 'text'})
-    senha: string
-
     @Column({type: 'text'})
     nome: string
 
